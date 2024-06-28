@@ -4,8 +4,18 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAX 100
+#define TAM 16811
 
-typedef void* titem;
+typedef struct _item{
+    char nome[MAX];
+    double latitude;
+    double longitude;
+    int codigo_uf;
+    int ddd;
+    int codigo_ibge;
+    int tipo;
+    struct _item *prox;
+}titem;
 
 typedef struct _cidade{
     int codigo_ibge;
@@ -19,18 +29,45 @@ typedef struct _cidade{
     char fuso_horario[MAX];
 }tcidade;
 
-typedef struct _avl{
-	titem item;
-    tcidade cidade;
+typedef struct _hash{
+    tcidade *cidades;
+    int tamanho; // 16811 por ser primo
+    int atual;
+}thash;
 
-    struct _node *pai;
-	struct _node *esq;
-	struct _node *dir;
+typedef struct _avl{
+	titem *item;
+
+    struct _avl *pai;
+	struct _avl *esq;
+	struct _avl *dir;
 	int h;
 }tavl;
 
-void lerArquivo(FILE* arquivo, tavl* arvore);
-void interface();
+//arquivo main.c
+void lerArquivo(FILE* arquivo, thash* hash ,tavl* avl_nome, tavl* avl_lat, tavl* avl_long, tavl* avl_uf, tavl* avl_ddd);
+
+//arquivo hash.c
+int h1(int codigo_ibge, int tamanho);
+int h2(int codigo_ibge, int tamanho);
+tcidade buscaIBGE(thash *hash, int codigo_ibge);
+thash* criarHash(int tamanho);
+void insereHash(thash *hash, tcidade cidade);
+void liberaHash(thash *hash);
+
+//arquivo avl.c
+int compara(titem *a, titem *b);
+void _re(tavl ** parv);
+void _rd(tavl ** parv);
+void _avl_rebalancear(tavl ** parv);
+void avl_insere(tavl ** parv, titem *item);
+tavl ** procura_sucessor(tavl ** arv);
+void avl_destroi(tavl *parv);
+
+//arquivo listaEncadeada.c
+void insereLista(titem **lista, titem *item);
+void destroiLista(titem **lista);
+
 
 
 #endif

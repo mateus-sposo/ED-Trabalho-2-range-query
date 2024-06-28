@@ -3,9 +3,10 @@
 #include <string.h>
 #include "../include/libtrab.h"
 
-void lerArquivo(FILE* arquivo, tavl* arvore){
+void lerArquivo(FILE* arquivo, thash* hash, tavl* avl_nome, tavl* avl_lat, tavl* avl_long, tavl* avl_uf, tavl* avl_ddd){
     char linha[200];
     tcidade cidade;
+    titem *item;
     while(fgets(linha, 200, arquivo)){
         if(strstr(linha, "codigo_ibge")){
             sscanf(linha, "    \"codigo_ibge\": %d,", &cidade.codigo_ibge);
@@ -33,21 +34,43 @@ void lerArquivo(FILE* arquivo, tavl* arvore){
         }
         if(strstr(linha, "fuso_horario")){
             sscanf(linha, "    \"fuso_horario\": \"%[^\"]\",", cidade.fuso_horario);
-            
+            insereHash(hash , cidade);
+
+            item->codigo_ibge = cidade.codigo_ibge;
+            strcpy(item->nome, cidade.nome);
+            item->latitude = cidade.latitude;
+            item->longitude = cidade.longitude;
+            item->codigo_uf = cidade.codigo_uf;
+            item->ddd = cidade.ddd;
+
+            item->tipo = 1;
+            avl_insere(&avl_nome, item);
+            item->tipo = 2;
+            avl_insere(&avl_lat, item);
+            item->tipo = 3;
+            avl_insere(&avl_long, item);
+            item->tipo = 4;
+            avl_insere(&avl_uf, item);
+            item->tipo = 5;
+            avl_insere(&avl_ddd, item);
         }
     }
 }
 
 int main(){
-    FILE* arquivo = fopen("../dados/municipios.json", "r");
+    thash *hash = criarHash(TAM);
+    tavl *avl_nome = NULL;
+    tavl *avl_lat = NULL;
+    tavl *avl_long = NULL;
+    tavl *avl_uf = NULL;
+    tavl *avl_ddd = NULL;
+    FILE* arquivo = fopen("../data/municipios.json", "r");
     if(arquivo == NULL){
         printf("Erro ao abrir o arquivo!\n");
         return EXIT_FAILURE;
     }
 
-    lerArquivo(arquivo, NULL);
-
-    interface();
+    lerArquivo(arquivo, hash, avl_nome, avl_lat, avl_long, avl_uf, avl_ddd);
 
     fclose(arquivo);
     return EXIT_SUCCESS;
