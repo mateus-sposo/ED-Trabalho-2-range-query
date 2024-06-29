@@ -23,7 +23,6 @@ int compara(titem *a, titem *b){
         case 1:
             return strcmp(a->nome, b->nome);
             break;
-
         case 2:
             fc = a->latitude - b->latitude;
             if(fc > 0){

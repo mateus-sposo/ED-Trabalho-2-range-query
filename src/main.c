@@ -57,6 +57,31 @@ void lerArquivo(FILE* arquivo, thash* hash, tavl* avl_nome, tavl* avl_lat, tavl*
     }
 }
 
+// void interface(thash *hash_cod, tavl *avl_nome, tavl *avl_lat, tavl *avl_long, tavl *avl_uf, tavl *avl_ddd){
+//     int opcao = 0;
+//     char[2] queryNome[MAX];
+//     double[2] queryLat;
+//     double[2] queryLong;
+//     int[2] queryUf;
+//     int[2] queryDdd;
+
+//     while(opcao != 4){
+//         printf("--------------------------------------\n");
+//         printf("Digite o Númro da query que deseja atualizar\n");
+//         printf("1 - Cidade por nome -> \' %s \' - \' %s \'\n", queryNome[0], queryNome[1]);
+//         printf("2 - Cidade por latitude -> %lf - %lf\n", queryLat[0], queryLat[1]);
+//         printf("3 - Cidade por longitude -> %lf - %lf\n", queryLong[0], queryLong[1]);
+//         printf("4 - Cidade por UF -> %d - %d\n", queryUf[0], queryUf[1]);
+//         printf("5 - Cidade por DDD -> %d - %d\n", queryDdd[0], queryDdd[1]);
+//         printf("--------------------------------------\n");
+//         printf("Digite a opcao desejada: ");
+//         scanf("%d", &opcao);
+//         printf("--------------------------------------\n");
+//         switch(opcao){
+//         }
+//     }
+// }
+
 int main(){
     thash *hash = criarHash(TAM);
     tavl *avl_nome = NULL;
@@ -71,6 +96,8 @@ int main(){
     }
 
     lerArquivo(arquivo, hash, avl_nome, avl_lat, avl_long, avl_uf, avl_ddd);
+
+    interface(hash, avl_nome, avl_lat, avl_long, avl_uf, avl_ddd);
 
     fclose(arquivo);
     return EXIT_SUCCESS;
