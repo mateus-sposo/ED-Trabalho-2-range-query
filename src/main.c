@@ -3,6 +3,13 @@
 #include <string.h>
 #include "../include/libtrab.h"
 
+char* estaAtiva(int ativas[5], int tipo){
+    if(ativas[tipo-1] == 1){
+        return "Ativa";
+    }
+    return "Inativa";
+}
+
 void lerArquivo(FILE* arquivo, thash* hash, traiz* avl_nome, traiz* avl_lat, traiz* avl_long, traiz* avl_uf, traiz* avl_ddd){
     char linha[200];
     tcidade cidade;
@@ -59,25 +66,80 @@ void lerArquivo(FILE* arquivo, thash* hash, traiz* avl_nome, traiz* avl_lat, tra
 
 void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long, traiz *avl_uf, traiz *avl_ddd){
     int opcao = 0;
-    char[2] queryNome[MAX];
-    double[2] queryLat;
-    double[2] queryLong;
-    int[2] queryUf;
-    int[2] queryDdd;
+    int *ativas = (int*)calloc(5, sizeof(int));
+    char *queryNome[] = {"", ""};
+    double *queryLat = (double*)calloc(2, sizeof(double));
+    double *queryLong = (double*)calloc(2, sizeof(double));
+    int *queryUf = (int*)calloc(2, sizeof(int));
+    int *queryDdd = (int*)calloc(2, sizeof(int));
 
-    while(opcao != 4){
+
+    while(opcao != 8){
         printf("--------------------------------------\n");
-        printf("Digite o Númro da query que deseja atualizar\n");
-        printf("1 - Cidade por nome -> \' %s \' - \' %s \'\n", queryNome[0], queryNome[1]);
-        printf("2 - Cidade por latitude -> %lf - %lf\n", queryLat[0], queryLat[1]);
-        printf("3 - Cidade por longitude -> %lf - %lf\n", queryLong[0], queryLong[1]);
-        printf("4 - Cidade por UF -> %d - %d\n", queryUf[0], queryUf[1]);
-        printf("5 - Cidade por DDD -> %d - %d\n", queryDdd[0], queryDdd[1]);
+        printf("Digite o Numero da query que deseja atualizar\n");
+        printf("1 - %s - Cidade por nome -> \' %s \' - \' %s \'\n", estaAtiva(ativas, 1), queryNome[0], queryNome[1]);
+        printf("2 - %s - Cidade por latitude -> %lf - %lf\n", estaAtiva(ativas, 2), queryLat[0], queryLat[1]);
+        printf("3 - %s - Cidade por longitude -> %lf - %lf\n", estaAtiva(ativas, 3), queryLong[0], queryLong[1]);
+        printf("4 - %s - Cidade por UF -> %d - %d\n", estaAtiva(ativas, 4), queryUf[0], queryUf[1]);
+        printf("5 - %s - Cidade por DDD -> %d - %d\n", estaAtiva(ativas, 5), queryDdd[0], queryDdd[1]);
         printf("--------------------------------------\n");
+        printf("6 - Desativar query\n");
+        printf("7 - Realizar consulta\n");
+        printf("8 - Sair\n");
         printf("Digite a opcao desejada: ");
         scanf("%d", &opcao);
         printf("--------------------------------------\n");
         switch(opcao){
+            case 1:
+                printf("Digite o nome da cidade: ");
+                scanf(" %s", queryNome[0]);
+                printf("Digite o nome da cidade: ");
+                scanf(" %s", queryNome[1]);
+                ativas[0] = 1;
+                break;
+            case 2:
+                printf("Digite a latitude da cidade: ");
+                scanf("%lf", &queryLat[0]);
+                printf("Digite a latitude da cidade: ");
+                scanf("%lf", &queryLat[1]);
+                ativas[1] = 1;
+                break;
+            case 3:
+                printf("Digite a longitude da cidade: ");
+                scanf("%lf", &queryLong[0]);
+                printf("Digite a longitude da cidade: ");
+                scanf("%lf", &queryLong[1]);
+                ativas[2] = 1;
+                break;
+            case 4:
+                printf("Digite o codigo da UF: ");
+                scanf("%d", &queryUf[0]);
+                printf("Digite o codigo da UF: ");
+                scanf("%d", &queryUf[1]);
+                ativas[3] = 1;
+                break;
+            case 5:
+                printf("Digite o DDD da cidade: ");
+                scanf("%d", &queryDdd[0]);
+                printf("Digite o DDD da cidade: ");
+                scanf("%d", &queryDdd[1]);
+                ativas[4] = 1;
+                break;
+            case 6:
+                int desat;
+                printf("Digite o número da query que deseja desativar: ");
+                scanf("%d", &desat);
+                ativas[desat-1] = 0;
+                break;
+            case 7:
+                
+                break;
+            case 8:
+                printf("Programa encerrado.\n");
+                break;
+            default:
+                printf("Opcao invalida!\n");
+                break;
         }
     }
 }
