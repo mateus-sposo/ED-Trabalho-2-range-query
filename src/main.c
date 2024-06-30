@@ -126,7 +126,7 @@ void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long
                 break;
             case 6:
                 int desat;
-                printf("Digite o número da query que deseja desativar: ");
+                printf("Digite o numero da query que deseja desativar: ");
                 scanf("%d", &desat);
                 ativas[desat-1] = 0;
                 break;
