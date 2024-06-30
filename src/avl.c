@@ -19,6 +19,8 @@ int altura(tavl *arv){
 int compara(titem *a, titem *b){
     double fc;
     int c = a->tipo;
+    //printf("%s", a->nome);
+    //printf("%s", b->nome);
     switch(c){
         case 1:
             return strcmp(a->nome, b->nome);
@@ -121,7 +123,7 @@ void _avl_rebalancear(tavl ** parv){
 	}
 }
 
-void avl_insere(tavl ** parv, titem *item){
+void _avl_insere(traiz * praiz, tavl ** parv, titem *item){
     if(*parv == NULL){
         (*parv) = (tavl *)malloc(sizeof(tavl));
         (*parv)->item = NULL;
@@ -144,7 +146,7 @@ void avl_insere(tavl ** parv, titem *item){
                 (*parv)->esq->h = 0;
             }
             else{
-                avl_insere(&(*parv)->esq, item);
+                _avl_insere(praiz, &(*parv)->esq, item);
             }
         }
         else if(cmp < 0){
@@ -158,7 +160,7 @@ void avl_insere(tavl ** parv, titem *item){
                 (*parv)->dir->h = 0;
             }
             else{
-                avl_insere(&(*parv)->dir, item);
+                _avl_insere(praiz, &(*parv)->dir, item);
             }
         }
         else{
@@ -168,6 +170,10 @@ void avl_insere(tavl ** parv, titem *item){
 	(*parv)->h = max(altura((*parv)->esq), altura((*parv)->dir)) + 1;
 	_avl_rebalancear(parv);
     // talvez tenha que fazer balanceamento pros 2 lados
+}
+
+void avl_insere(traiz *parv, titem *item){
+    _avl_insere(parv, &parv->raiz, item);
 }
 
 tavl ** percorre_esq(tavl ** parv){

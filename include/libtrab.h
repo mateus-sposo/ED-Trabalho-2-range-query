@@ -44,8 +44,18 @@ typedef struct _avl{
 	int h;
 }tavl;
 
+typedef struct _raiz{
+    tavl *raiz;
+}traiz;
+
+typedef struct _resultado{
+    int codigo;
+    int quant;
+    struct _resultado *prox;
+}tresultado;
+
 //arquivo main.c
-void lerArquivo(FILE* arquivo, thash* hash ,tavl* avl_nome, tavl* avl_lat, tavl* avl_long, tavl* avl_uf, tavl* avl_ddd);
+void lerArquivo(FILE* arquivo, thash* hash ,traiz* avl_nome, traiz* avl_lat, traiz* avl_long, traiz* avl_uf, traiz* avl_ddd);
 
 //arquivo hash.c
 int h1(int codigo_ibge, int tamanho);
@@ -60,14 +70,19 @@ int compara(titem *a, titem *b);
 void _re(tavl ** parv);
 void _rd(tavl ** parv);
 void _avl_rebalancear(tavl ** parv);
-void avl_insere(tavl ** parv, titem *item);
+void _avl_insere(traiz * praiz, tavl ** parv, titem *item);
+void avl_insere(traiz * parv, titem *item);
 tavl ** procura_sucessor(tavl ** arv);
 void avl_destroi(tavl *parv);
 
 //arquivo listaEncadeada.c
 void insereLista(titem **lista, titem *item);
 void destroiLista(titem **lista);
+void insereListaRes(tresultado **lista, int codigo);
 
+//arquivo rangeQuery.c
+tavl * buscaMenor(tavl ** avl, titem *itemMenor);
+void retornaIntervalo(tavl ** avl, titem *itemMaior, tresultado ** res);
 
 
 #endif
