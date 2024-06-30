@@ -67,7 +67,7 @@ void lerArquivo(FILE* arquivo, thash* hash, traiz* avl_nome, traiz* avl_lat, tra
 void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long, traiz *avl_uf, traiz *avl_ddd){
     int opcao = 0;
     int *ativas = (int*)calloc(5, sizeof(int));
-    char *queryNome[] = {"", ""};
+    char queryNome[2][MAX] = {"", ""};
     double *queryLat = (double*)calloc(2, sizeof(double));
     double *queryLong = (double*)calloc(2, sizeof(double));
     int *queryUf = (int*)calloc(2, sizeof(int));
@@ -92,9 +92,9 @@ void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long
         switch(opcao){
             case 1:
                 printf("Digite o nome da cidade: ");
-                scanf(" %s", queryNome[0]);
+                scanf(" %[^\n]", queryNome[0]);
                 printf("Digite o nome da cidade: ");
-                scanf(" %s", queryNome[1]);
+                scanf(" %[^\n]", queryNome[1]);
                 ativas[0] = 1;
                 break;
             case 2:
@@ -132,7 +132,89 @@ void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long
                 ativas[desat-1] = 0;
                 break;
             case 7:
-                
+                tresultado *res = (tresultado*)malloc(sizeof(tresultado));
+                res->quant = 0;
+                res->prox = NULL;
+                if(ativas[0] == 1){
+                    if(strcmp(queryNome[0], queryNome[1])>0){
+                        char aux[MAX];
+                        strcpy(aux, queryNome[0]);
+                        strcpy(queryNome[0], queryNome[1]);
+                        strcpy(queryNome[1], aux);
+                    }
+                    titem *aux1 = (titem*)malloc(sizeof(titem));
+                    strcpy(aux1->nome, queryNome[0]);
+                    aux1->tipo = 1;
+                    tavl *menor = buscaMenor(&avl_nome->raiz, aux1);
+                    strcpy(aux1->nome, queryNome[1]);
+                    retornaIntervalo(&menor, aux1, &res);
+                }
+                if(ativas[1] == 1){
+                    if(queryLat[0] > queryLat[1]){
+                        double aux = queryLat[0];
+                        queryLat[0] = queryLat[1];
+                        queryLat[1] = aux;
+                    }
+                    titem *aux2 = (titem*)malloc(sizeof(titem));
+                    aux2->latitude = queryLat[0];
+                    aux2->tipo = 2;
+                    tavl *menor = buscaMenor(&avl_lat->raiz, aux2);
+                    aux2->latitude = queryLat[1];
+                    retornaIntervalo(&menor, aux2, &res);
+                }
+                if(ativas[2] == 1){
+                    if(queryLong[0] > queryLong[1]){
+                        double aux = queryLong[0];
+                        queryLong[0] = queryLong[1];
+                        queryLong[1] = aux;
+                    }
+                    titem *aux3 = (titem*)malloc(sizeof(titem));
+                    aux3->longitude = queryLong[0];
+                    aux3->tipo = 3;
+                    tavl *menor = buscaMenor(&avl_long->raiz, aux3);
+                    aux3->longitude = queryLong[1];
+                    retornaIntervalo(&menor, aux3, &res);
+                }
+                if(ativas[3] == 1){
+                    if(queryUf[0] > queryUf[1]){
+                        int aux = queryUf[0];
+                        queryUf[0] = queryUf[1];
+                        queryUf[1] = aux;
+                    }
+                    titem *aux4 = (titem*)malloc(sizeof(titem));
+                    aux4->codigo_uf = queryUf[0];
+                    aux4->tipo = 4;
+                    tavl *menor = buscaMenor(&avl_uf->raiz, aux4);
+                    aux4->codigo_uf = queryUf[1];
+                    retornaIntervalo(&menor, aux4, &res);
+                }
+                if(ativas[4] == 1){
+                    if(queryDdd[0] > queryDdd[1]){
+                        int aux = queryDdd[0];
+                        queryDdd[0] = queryDdd[1];
+                        queryDdd[1] = aux;
+                    }
+                    titem *aux5 = (titem*)malloc(sizeof(titem));
+                    aux5->ddd = queryDdd[0];
+                    aux5->tipo = 5;
+                    tavl *menor = buscaMenor(&avl_ddd->raiz, aux5);
+                    aux5->ddd = queryDdd[1];
+                    retornaIntervalo(&menor, aux5, &res);
+                }
+                int qntAtivas = 0;
+                for(int i = 0; i < 5; i++){
+                    if(ativas[i] == 1){
+                        qntAtivas++;
+                    }
+                }
+                tresultado *aux = res;
+                while(aux != NULL){
+                    printf("%d\n",aux->quant);
+                    if(aux->quant == qntAtivas){
+                        printf("Codigo IBGE: %d\n", aux->codigo);
+                    }
+                    aux = aux->prox;
+                }
                 break;
             case 8:
                 printf("Programa encerrado.\n");

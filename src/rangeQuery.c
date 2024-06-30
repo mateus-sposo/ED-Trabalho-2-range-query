@@ -8,7 +8,7 @@ tavl * buscaMenor(tavl ** avl, titem *itemMenor){
         return NULL;
     }
     if(compara((*avl)->item, itemMenor) >= 0){
-        tavl *aux = buscaMenor(&(*avl)->dir, itemMenor);
+        tavl *aux = buscaMenor(&(*avl)->esq, itemMenor);
         if(aux != NULL){
             return aux;
         }
