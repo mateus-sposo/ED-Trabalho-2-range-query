@@ -61,3 +61,10 @@ void destroiLista(titem ** lista){
         destroiLista(&aux->prox);
     free(aux);
 }
+
+void destroiListaRes(tresultado ** lista){
+    tresultado *aux = *lista;
+    if(aux->prox != NULL)
+        destroiListaRes(&aux->prox);
+    free(aux);
+}

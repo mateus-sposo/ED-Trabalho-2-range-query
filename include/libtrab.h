@@ -56,7 +56,7 @@ typedef struct _resultado{
 
 //arquivo main.c
 void lerArquivo(FILE* arquivo, thash* hash ,traiz* avl_nome, traiz* avl_lat, traiz* avl_long, traiz* avl_uf, traiz* avl_ddd);
-void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long, traiz *avl_uf, traiz *avl_ddd);
+void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long, traiz *avl_uf, traiz *avl_ddd, tresultado *res);
 
 //arquivo hash.c
 int h1(int codigo_ibge, int tamanho);
@@ -80,6 +80,7 @@ void avl_destroi(tavl *parv);
 void insereLista(titem **lista, titem *item);
 void destroiLista(titem **lista);
 void insereListaRes(tresultado **lista, int codigo);
+void destroiListaRes(tresultado **lista);
 
 //arquivo rangeQuery.c
 tavl * buscaMenor(tavl ** avl, titem *itemMenor);

@@ -64,7 +64,7 @@ void lerArquivo(FILE* arquivo, thash* hash, traiz* avl_nome, traiz* avl_lat, tra
     }
 }
 
-void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long, traiz *avl_uf, traiz *avl_ddd){
+void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long, traiz *avl_uf, traiz *avl_ddd, tresultado *res){
     int opcao = 0;
     int *ativas = (int*)calloc(5, sizeof(int));
     char queryNome[2][MAX] = {"", ""};
@@ -72,7 +72,6 @@ void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long
     double *queryLong = (double*)calloc(2, sizeof(double));
     int *queryUf = (int*)calloc(2, sizeof(int));
     int *queryDdd = (int*)calloc(2, sizeof(int));
-
 
     while(opcao != 8){
         printf("--------------------------------------\n");
@@ -132,7 +131,6 @@ void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long
                 ativas[desat-1] = 0;
                 break;
             case 7:
-                tresultado *res = (tresultado*)malloc(sizeof(tresultado));
                 res->quant = 0;
                 res->prox = NULL;
                 if(ativas[0] == 1){
@@ -212,7 +210,7 @@ void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long
                 while(aux != NULL){
                     if(aux->quant == qntAtivas){
                         cidadeRes = buscaIBGE(hash_cod, aux->codigo);
-                        printf("Nome: %20s  |  ", cidadeRes.nome);
+                        printf("Nome: %30s  |  ", cidadeRes.nome);
                         printf("Codigo IBGE: %d\n", aux->codigo);
                     }
                     aux = aux->prox;
@@ -229,6 +227,7 @@ void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long
 }
 
 int main(){
+    tresultado *res = (tresultado*)malloc(sizeof(tresultado));
     thash *hash = criarHash(TAM);
     traiz avl_nome, avl_lat, avl_long, avl_uf, avl_ddd;
     avl_nome.raiz = NULL;
@@ -242,8 +241,15 @@ int main(){
         return EXIT_FAILURE;
     }
     lerArquivo(arquivo, hash, &avl_nome, &avl_lat, &avl_long, &avl_uf, &avl_ddd);
-    interface(hash, &avl_nome, &avl_lat, &avl_long, &avl_uf, &avl_ddd);
+    interface(hash, &avl_nome, &avl_lat, &avl_long, &avl_uf, &avl_ddd, res);
 
+    liberaHash(hash);
+    avl_destroi(avl_nome.raiz);
+    avl_destroi(avl_lat.raiz);
+    avl_destroi(avl_long.raiz);
+    avl_destroi(avl_uf.raiz);
+    avl_destroi(avl_ddd.raiz);
+    destroiListaRes(&res);
     fclose(arquivo);
     return EXIT_SUCCESS;
 }
