@@ -50,6 +50,7 @@ void insereListaRes(tresultado ** lista, int codigo){
         }
         aux->prox = (tresultado*)malloc(sizeof(tresultado));
         aux->prox->codigo = codigo;
+        aux->prox->quant = 1;
         aux->prox->prox = NULL;
     }
 }

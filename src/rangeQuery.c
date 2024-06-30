@@ -24,7 +24,7 @@ void retornaIntervalo(tavl ** avl, titem *itemMaior, tresultado ** res){
     if(compara((*avl)->item, itemMaior) <= 0){
         titem *aux = (*avl)->item;
         while(aux != NULL){
-            insereListaRes(res, (*avl)->item->codigo_ibge);
+            insereListaRes(res, aux->codigo_ibge);
             aux = aux->prox;
         }
         avl = procura_sucessor(avl);

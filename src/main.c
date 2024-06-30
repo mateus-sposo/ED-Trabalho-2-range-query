@@ -209,7 +209,6 @@ void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long
                 }
                 tresultado *aux = res;
                 while(aux != NULL){
-                    printf("%d\n",aux->quant);
                     if(aux->quant == qntAtivas){
                         printf("Codigo IBGE: %d\n", aux->codigo);
                     }
