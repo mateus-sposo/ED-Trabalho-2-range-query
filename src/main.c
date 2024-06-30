@@ -207,9 +207,12 @@ void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long
                         qntAtivas++;
                     }
                 }
+                tcidade cidadeRes;
                 tresultado *aux = res;
                 while(aux != NULL){
                     if(aux->quant == qntAtivas){
+                        cidadeRes = buscaIBGE(hash_cod, aux->codigo);
+                        printf("Nome: %20s  |  ", cidadeRes.nome);
                         printf("Codigo IBGE: %d\n", aux->codigo);
                     }
                     aux = aux->prox;
@@ -224,18 +227,6 @@ void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long
         }
     }
 }
-
-// void imprimeAVL(tavl *avl){
-//     if(avl != NULL){
-//         imprimeAVL(avl->esq);
-//         titem *aux = avl->item;
-//         while(aux != NULL){
-//             printf("%s\n", aux->nome);
-//             aux = aux->prox;
-//         }
-//         imprimeAVL(avl->dir);
-//     }
-// }
 
 int main(){
     thash *hash = criarHash(TAM);
