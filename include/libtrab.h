@@ -56,6 +56,7 @@ typedef struct _resultado{
 
 //arquivo main.c
 void lerArquivo(FILE* arquivo, thash* hash ,traiz* avl_nome, traiz* avl_lat, traiz* avl_long, traiz* avl_uf, traiz* avl_ddd);
+void interface(thash *hash_cod, traiz *avl_nome, traiz *avl_lat, traiz *avl_long, traiz *avl_uf, traiz *avl_ddd);
 
 //arquivo hash.c
 int h1(int codigo_ibge, int tamanho);
